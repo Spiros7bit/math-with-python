@@ -23,12 +23,9 @@ class Matrix:
         for i in range( self.rows ):
             st += "\n"
             for j in range( self.columns ):
-                st += "\t"+str( self.matrix[i][j] )+""
+                st += "\t\t"+str( self.matrix[i][j] )+""
 
         return st
-    
-    def __len__(self):
-        return 
     
     def __add__(self, other):
         #addition can be only with same rows and columns matrices
@@ -66,9 +63,13 @@ class Matrix:
             for i in range(0, self.rows):
                 for j in range(0, other.columns):
                     for k in range(0, len(self.matrix[0]) ):
-                        matrix[i][j] = matrix[i][j] + self.matrix[i][k] * other.matrix[k][j]
+                        matrix[i][j] = (self.matrix[i][k] * other.matrix[k][j]) + matrix[i][j] 
                     
         return Matrix(matrix)
     def __rmul__(self, other):
         #method __mul__ throw error, for that i call __mul__ from __rmul__ and workd :D
         return self.__mul__(other)
+
+    def len(matrix):
+        #This method return a "list" of 2 ints, the rows and the columns of a 2D matrix
+        return matrix.rows, matrix.columns
