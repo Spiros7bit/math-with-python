@@ -107,7 +107,7 @@ class Polar(Complex):
         z_imag = self.amplitude**n*( sin(n*self.phase) )
         self = Cartesian(z_real, z_imag) 
         return self.transform()
-        
+
 #Class that specialize complex number to cartesian form ( z = x + yi )
 class Cartesian(Complex):
     #initializer
