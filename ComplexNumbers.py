@@ -2,7 +2,7 @@
 A module to deal with Complex Numbers
 '''
 
-from math import atan, sqrt, pi, degrees, cos, sin
+from math import atan, sqrt, pi, cos, sin
 from abc import ABC, abstractmethod
 
 #Class for complex numbers
@@ -28,7 +28,7 @@ class Polar(Complex):
         self.phase = phase
     
     def __str__(self):
-        return f"({self.amplitude} , {self.phase})"
+        return f"({round(self.amplitude,3)} , {round(self.phase/pi)}π)"
 
     def __repr__(self):
         return f"Polar( {self.amplitude},{self.phase} )"
@@ -100,6 +100,13 @@ class Polar(Complex):
     
     def conjugate(self):
         return Polar(self.amplitude, -self.phase)
+
+    def __pow__(self, n):
+        #find power of complex number with deMoivre's formula
+        z_real = self.amplitude**n*( cos(n*self.phase) )
+        z_imag = self.amplitude**n*( sin(n*self.phase) )
+        self = Cartesian(z_real, z_imag) 
+        return self.transform()
         
 #Class that specialize complex number to cartesian form ( z = x + yi )
 class Cartesian(Complex):
@@ -111,8 +118,8 @@ class Cartesian(Complex):
 
     def __str__(self):
         if self.imaginary >= 0:
-            return f"{self.real}+{self.imaginary}i"
-        return f"{self.real}{self.imaginary}i"
+            return f"{round(self.real,3)}+{round(self.imaginary,3)}i"
+        return f"{round(self.real, 3)}{round(self.imaginary,3)}i"
     
     def __repr__(self):
         return f"Cartesian({self.real},{self.imaginary})"
@@ -184,18 +191,25 @@ class Cartesian(Complex):
 
     def conjugate(self):
         return Cartesian(self.real, -self.imaginary)
+    
+    def __pow__(self, n):
+        #find power of complex number with deMoivre's formula
+        self = self.transform()
+        z_real = self.amplitude**n*( cos(n*self.phase) )
+        z_imag = self.amplitude**n*( sin(n*self.phase) )
+        return Cartesian(z_real, z_imag) 
 
     #method to transform from cartesian to polar
     def transform(self):
         if isinstance(self, Cartesian):
             if self.real >= 0 and self.imaginary >= 0:
-                phase = degrees( atan(self.imaginary/self.real ))
+                phase = atan(self.imaginary/self.real )
             elif self.real >= 0 and self.imaginary < 0:
-                phase = degrees( 2*pi ) - degrees( atan(self.imaginary/self.real ))
+                phase = 2*pi - atan(self.imaginary/self.real )
             elif self.real < 0 and self.imaginary >= 0:
-                phase = degrees( pi/2 ) - degrees( atan(self.imaginary/self.real ))  
+                phase = pi/2 - atan(self.imaginary/self.real )  
             elif self.real < 0 and self.imaginary < 0:
-                phase = degrees( pi ) - degrees( atan(self.imaginary/self.real ))
+                phase = pi - atan(self.imaginary/self.real )
             amplitude = sqrt((self.real)**2 + (self.imaginary)**2)
 
         return Polar(amplitude, phase)
