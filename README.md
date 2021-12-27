@@ -13,5 +13,5 @@ This project deal with mathematic subjects
 ## How to run 
 
 ```bash
-    $ python3 Path/random_file.py
+$ python3 Path/random_file.py
 ```
