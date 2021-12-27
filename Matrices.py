@@ -100,7 +100,7 @@ class Matrix:
     def g_j_elimination(self):
         '''
             Gauss-Jordan algorithm:
-                This algorithm solve square linear systems
+                This algorithm solve linear systems
         '''
         i = 0 #counter for rows
         j = 0 #counter for columns
